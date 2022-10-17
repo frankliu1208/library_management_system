@@ -33,8 +33,7 @@
                         </div>
                         <div class="logined">
                             <a class="sui-btn btn-block btn-xlarge btn-danger"
-                            <%--  href一般引用的都是URL，或是绝对地址，或是相对地址，这里引用的是javascript，
-                            从document中取出loginform，然后调用loginform的submit()方法               --%>
+                            <%--  从document中取出loginform，然后调用loginform的submit()方法    --%>
                                href='javascript:document:loginform.submit();' target="_self"> Login </a>
                         </div>
                     </form>

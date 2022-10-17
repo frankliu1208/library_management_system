@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+<%--  belong to book management module:  2nd sub-module book lending, only for administrator  --%>
     <meta charset="utf-8">
     <title>Book management</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
@@ -9,17 +10,17 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pagination.css">
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pagination.js"  charset="gb2312" ></script>
     <script src="${pageContext.request.contextPath}/js/my.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
-<!-- .box-body -->
+<!-- display the main page of book management module:  2nd sub-module book lending(borrowing).  -->
 <div class="box-header with-border">
     <h3 class="box-title">Book borrowing</h3>
 </div>
 <div class="box-body">
-    <%--：， add button:  if the logged user is admin, display add button--%>
+    <%--：，  if the logged user is admin, display add button--%>
     <c:if test="${USER_SESSION.role =='ADMIN'}">
         <div class="pull-left">
             <div class="form-group form-inline">
@@ -33,7 +34,7 @@
     </c:if>
 
 
-    <!--toolbar data search -->
+    <!--search area on the top  -->
     <div class="box-tools pull-right">
         <div class="has-feedback">
             <form action="${pageContext.request.contextPath}/book/search" method="post">
@@ -44,9 +45,9 @@
             </form>
         </div>
     </div>
-    <!--toolbar data search /-->
 
-    <!-- data sheet -->
+
+    <!-- data table displaying in the middle of main page -->
     <div class="table-box">
 
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable text-center">
@@ -80,6 +81,7 @@
                     <td>${book.returnTime}</td>
                     <td class="text-center">
                         <c:if test="${book.status ==0}">
+                            <%--     2 buttons in the right side of data table displaying area,  for EDIT function, only for admin          --%>
                             <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
                                     data-target="#borrowModal" onclick="findBookById(${book.id},'borrow')"> Borrow
                             </button>
@@ -89,6 +91,7 @@
                                 </button>
                             </c:if>
                         </c:if>
+                        <%--  if the book has been lended out, the borrow button is gray and can not be clicked              --%>
                         <c:if test="${book.status ==1 ||book.status ==2}">
                             <button type="button" class="btn bg-olive btn-xs" disabled="true">Borrow</button>
                         </c:if>
@@ -99,16 +102,18 @@
         </table>
 
 
-        <%--pagination plugin--%>
+        <%--pagination plugin, at the bottom middle area of main page--%>
         <div id="pagination" class="pagination"></div>
     </div>
 
 </div>
 
-<%--引入存放模态窗口的页面--%>
+<%--introduce the modal window page--%>
 <jsp:include page="/admin/book_modal.jsp"></jsp:include>
 
-<!-- 添加和编辑图书的模态窗口 -->
+
+
+<!-- modal window for add or edit functions -->
 <div class="modal fade" id="addOrEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -118,9 +123,10 @@
             </div>
             <div class="modal-body">
                 <form id="addOrEditBook">
+                    <%--the book id, is not displayed in the modal window, it is hidden, in my.js addOrEdit method will use it, L106  --%>
                     <span><input type="hidden" id="ebid" name="id"></span>
                     <table id="addOrEditTab" class="table table-bordered table-striped" width="800px">
-                        <%--图书的id,不展示在页面--%>
+                        <%--the book id, is not displayed in the modal window--%>
                         <tr>
                             <td>Book name</td>
                             <td><input class="form-control" placeholder="Book name" name="name" id="ebname"></td>
@@ -161,18 +167,17 @@
 </div>
 
 </body>
+
 <script>
-    /*分页插件展示的总页数*/
+
     pageargs.total = Math.ceil(${pageResult.total}/pageargs.pagesize);
-    /*分页插件当前的页码*/
     pageargs.cur = ${pageNum}
-    /*分页插件页码变化时将跳转到的服务器端的路径*/
     pageargs.gourl = "${gourl}"
-    /*保存搜索框中的搜索条件，页码变化时携带之前的搜索条件*/
+
     bookVO.name = "${search.name}"
     bookVO.author = "${search.author}"
     bookVO.press = "${search.press}"
-    /*分页效果*/
+
     pagination(pageargs);
 </script>
 </html>

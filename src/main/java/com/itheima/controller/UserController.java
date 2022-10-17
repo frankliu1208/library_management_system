@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * 用户登录和注销Controller
+ *  Controller for user login and logout
  */
 @Controller
 @RequestMapping("/user")
@@ -24,12 +24,11 @@ public class UserController {
     private UserService userService;
 
 
-   //User login
+    //   belong to user login module
     @RequestMapping("/login")
     public String login(User user, HttpServletRequest request) {
         try {
             User u = userService.login(user);
-
 
             // user has been logged in, save info to session, go to the main.jsp or index.jsp
             if (u != null) {
@@ -40,7 +39,6 @@ public class UserController {
                 } else {
                     return "redirect:/admin/index.jsp";  // go to user related page
                 }
-
             }
             // object u is null, means the user is not logged in
             request.setAttribute("msg", "Username or password is wrong");
@@ -55,9 +53,8 @@ public class UserController {
 
 
 
-
     /*
-    Logout
+    Logout function,  belong to user login module
      */
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
@@ -74,10 +71,8 @@ public class UserController {
     }
 
 
-
     /**
      * add new user
-     * @param user user information
      */
     @ResponseBody
     @RequestMapping("/addUser")
@@ -92,10 +87,8 @@ public class UserController {
     }
 
 
-
     /**
      * delete users due to leave of the library
-     * @param id user id
      */
     @ResponseBody
     @RequestMapping("/delUser")
@@ -110,10 +103,8 @@ public class UserController {
     }
 
 
-
     /**
      * edit user info
-     * @param user user info
      */
     @ResponseBody
     @RequestMapping("/editUser")
@@ -126,7 +117,6 @@ public class UserController {
             return new Result(false, "Modify failed!");
         }
     }
-
 
 
     /**
@@ -145,13 +135,14 @@ public class UserController {
         }
         PageResult pageResult = userService.searchUsers(user, pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user");
+        modelAndView.setViewName("user");  // below variables will go to user.jsp
         modelAndView.addObject("pageResult", pageResult);
-        modelAndView.addObject("search", user);
-        modelAndView.addObject("pageNum", pageNum);
-        modelAndView.addObject("gourl", "/user/search");
+        modelAndView.addObject("search", user); // go to user.jsp L191 - 200
+        modelAndView.addObject("pageNum", pageNum);  // go to user.jsp L191 - 200
+        modelAndView.addObject("gourl", "/user/search");  // go to user.jsp L191 - 200
         return modelAndView;
     }
+
 
     /**
      * search user according to id

@@ -7,10 +7,11 @@ import entity.PageResult;
  */
 public interface UserService{
 
+    // belong to user login module
     User login(User user);
 
     void addUser(User user);
-// delete user according to user id
+
     void delUser(Integer id);
 
     void editUser(User user);

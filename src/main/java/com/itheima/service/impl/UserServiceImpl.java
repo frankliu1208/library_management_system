@@ -21,73 +21,67 @@ public class UserServiceImpl  implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    // search for user info according to account and password
+    // search for user info according to account and password,   belong to user login module
     @Override
     public User login(User user) {
         return userMapper.login(user);
     }
 
 
-
-
     /**
-     * 新增用户
-     * @param user 新增的用户信息
+     * add new user
      */
     public void addUser(User user) {
-//        新增的用户 默认状态都设置为0,即在职状态
+        //      new user will be set teh status of 0, means normal
         user.setStatus("0");
         userMapper.addUser(user);
     }
 
     /**
-     * 根据id办理用户离职
-     * @param id 离职用户的id
+     *   delete user according to id
      */
     public void delUser(Integer id) {
-//        根据id查询出用户的完整信息
+        //       search the complete info of user
         User user = this.findById(id);
-//设置用户为离职状态
+        //  set status to be 1, means forbidden
         user.setStatus("1");
-//      设置当天为用户的离职时间
+        //     set the leaving date
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         user.setDeparturedate(dateFormat.format(new Date()));
         userMapper.editUser(user);
     }
 
     /**
-     * 编辑用户信息
-     * @param user 更新之后的用户信息
+     * edit user info
      */
     public void editUser(User user) {
         userMapper.editUser(user);
     }
 
     /**
-     * 搜索用户
-     * @param user 搜索的条件
-     * @param pageNum 当前页码
-     * @param pageSize 每页显示数量
+     * Search the user
+     * @param user searching condition
+     * @param pageNum current page
+     * @param pageSize displaying number per page
      * @return
      */
     public PageResult searchUsers(User user, Integer pageNum, Integer pageSize) {
-        // 使用分页插件:
+        //     PageHelper and Page are third-party class, used for pagination
         PageHelper.startPage(pageNum, pageSize);
         Page<User> page =  userMapper.searchUsers(user);
+        //        PageResult is entity class, 2 properties: total, rows
         return new PageResult(page.getTotal(),page.getResult());
     }
 
     /**
-     * 根据用户id查询用户信息
-     * @param id 用户id
+     * search user info according to user id
      */
     public User findById(Integer id) {
         return userMapper.findById(id);
     }
 
     /**
-     * 检查用户名是否已经存在
-     * @param name 待检查的用户名
+     *  check if the username is existing
      */
     @Override
     public Integer checkName(String name) {
@@ -95,8 +89,7 @@ public class UserServiceImpl  implements UserService {
     }
 
     /**
-     * 检查用户邮箱是否存储
-     * @param email 待检查的用户邮箱
+     * check user email
      */
     @Override
     public Integer checkEmail(String email) {

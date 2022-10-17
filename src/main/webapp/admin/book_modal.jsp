@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!-- 图书借阅信息的模态窗口，默认是隐藏的 modal interface for book borrow info, by default it is hidden-->
+<%--belong to book management module,  Home page sub-module  --%>
+<!-- modal window，hided by default,  in books_new.jsp, when clicking "borrow", call findBookById in my.js,
+ send async request to backend, get the data and fill them in this modal window-->
 <div class="modal fade" id="borrowModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -8,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <form id="borrowBook">
-                    <table class="table table-bordered table-striped" width="800px">
+                    <table class="table table-bordered table-striped" width="1200px">
                         <%--book id，did not display in the modal interface--%>
                         <span><input type="hidden" id="bid" name="id"></span>
                         <tr>
@@ -26,8 +28,8 @@
                         <tr>
                             <td>Book page</td>
                             <td><input class="form-control" readonly name="pagination" id="bpagination"></td>
-                            <td>Return date<br/><span style="color: red">*</span></td>
-                            <%--时间控件中的内容改变时，调用js文件中的cg()方法--%>
+                            <td>Return date<span style="color: red">*</span></td>
+                            <%-- when the below input changes，call the cg() method--%>
                             <td><input class="form-control" type="date" name="returnTime" id="time" onchange="cg()">
                             </td>
                         </tr>
@@ -36,7 +38,7 @@
             </div>
 
             <div class="modal-footer">
-                <%--点击保存按钮时，隐藏模态窗口并调用js文件中的borrow()方法--%>
+                <%-- when clicking save button, hide the modal window, and call the borrow method in my.js--%>
                 <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="borrow()"
                         disabled="true" id="savemsg">Save
                 </button>

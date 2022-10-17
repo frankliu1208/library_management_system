@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
-
+<%-- front-end page for "Personal management" section--%>
 <head>
     <!-- meta -->
     <meta charset="utf-8">
@@ -12,18 +12,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pagination.css">
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pagination.js" charset="gb2312"></script>
     <script src="${pageContext.request.contextPath}/js/my.js"></script>
+    <script src="https://kit.fontawesome.com/c2a154e786.js" crossorigin="anonymous"></script>
+
 </head>
+
 <body class="hold-transition skin-red sidebar-mini">
-<!-- .box-body -->
+
 <div class="box-header with-border">
     <h3 class="box-title">Personal management</h3>
 </div>
 <div class="box-body">
-    <!-- Data sheet -->
+
+<%--  menu bar at the top, including add button at the left, id,name search input tag at the right  --%>
     <div class="table-box">
-        <!--tool bar-->
         <div class="pull-left">
             <div class="form-group form-inline">
                 <div class="btn-group">
@@ -33,8 +36,12 @@
                 </div>
             </div>
         </div>
+
         <div class="box-tools pull-right">
             <div class="has-feedback">
+                <%--  ${pageContext.request.contextPath} is to get the absolute path, i.e. get the current project name url              --%>
+                <%--    value in name property in input tag shall be the same with the property in entity class User, then these values can send to Usercontroller  --%>
+                <%--   only two param sends to usercontroller, search method                 --%>
                 <form action="${pageContext.request.contextPath}/user/search" method="post">
                     ID：<input name="id" value="${user.id}">&nbsp&nbsp&nbsp&nbsp
                     Name：<input name="name" value="${user.name}">&nbsp&nbsp&nbsp&nbsp
@@ -43,8 +50,8 @@
             </div>
         </div>
     </div>
-    <!--tool bar/-->
-    <!--Data list-->
+
+
     <table id="dataList" class="table table-bordered table-striped table-hover dataTable text-center">
         <thead>
         <tr class="text-center">
@@ -52,46 +59,48 @@
             <th>Name</th>
             <th>Email</th>
             <th>Joining date</th>
-            <th>Employment status</th>
+            <th>Status</th>
             <th>Operation</th>
         </tr>
         </thead>
         <tbody>
+<%--        in pageResult object includes 2 properties, total and rows--%>
         <c:forEach items="${pageResult.rows}" var="user">
             <tr>
                 <td>${user.id}</td>
                 <td>${user.name}</td>
                 <td>${user.email}</td>
                 <td>${user.hiredate}</td>
+
                 <td>
                     <c:if test="${user.status == 0}">
-                        Employed
+                        Normal
                     </c:if>
                     <c:if test="${user.status == 1}">
-                        Left
+                        Forbidden
                     </c:if>
-
                 </td>
+
                 <td class="text-center">
                     <c:if test="${user.status == 0}">
                         <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"
                                 onclick="findUserById(${user.id})">Modify
                         </button>
                         &nbsp&nbsp&nbsp&nbsp
-                        <button type="button" class="btn bg-olive btn-xs" onclick="delUser(${user.id})">Left</button>
+                        <button type="button" class="btn bg-olive btn-xs" onclick="delUser(${user.id})">Delete</button>
                     </c:if>
-
                 </td>
             </tr>
         </c:forEach>
+
         </tbody>
     </table>
-    <!--Data list/-->
+
     <div id="pagination" class="pagination"></div>
 </div>
-<!-- Data sheet /-->
+
 </div>
-<!-- /.box-body -->
+
 <tm-pagination conf="paginationConf"></tm-pagination>
 
 <!-- Adding window -->
@@ -187,13 +196,15 @@
     </div>
 </div>
 </body>
+
+<%--below js codes is used for pagination functions --%>
 <script>
-    //total pages
+    //total pages, calculate the total pages, ${pageResult.total} is being got from UserController L139, pageargs.pagesize is defined in my.js L352
     pageargs.total=Math.ceil(${pageResult.total}/pageargs.pagesize);
 
-    pageargs.cur=${pageNum}
+    pageargs.cur=${pageNum}   //  get ${pageNum} from UserController L141, assign this value to pageargs object defined in my.js L352
      pageargs.gourl="${gourl}"
-    userVO.id="${search.id}"
+    userVO.id="${search.id}"   // "search" is from UserController L140
     userVO.name="${search.name}"
     pagination(pageargs);
 </script>

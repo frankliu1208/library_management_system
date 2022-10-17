@@ -3,7 +3,7 @@ import com.github.pagehelper.Page;
 import com.itheima.domain.Book;
 import org.apache.ibatis.annotations.*;
 /**
- * 图书接口
+ * Interface in DAO layer
  */
 public interface BookMapper {
     @Select("SELECT * FROM book where book_status !='3' order by book_uploadtime DESC")
@@ -23,11 +23,12 @@ public interface BookMapper {
             @Result(column = "book_borrowtime",property = "borrowTime"),
             @Result(column = "book_returntime",property = "returnTime")
     })
-    // object of Page includes total pages and rows, see the entity class PageResult
+    // object of Page includes total pages and rows, see the entity class PageResult, Page class is provided by PageHelper plugin
+    // belong to book management module,  Home page sub-module
     Page<Book> selectNewBooks();
 
 
-
+    // belong to book management module,  Home page sub-module
     @Select("SELECT * FROM book where book_id=#{id}")
     @ResultMap("bookMap")
     //search for book according to id
@@ -36,7 +37,7 @@ public interface BookMapper {
 
 
     // 注解方式实现动态sql,  需要使用 <script></script> 标签包裹
-    @Select({"<script>" +
+    @Select({ "<script>" +
             "SELECT * FROM book " +
             "where book_status !='3'" +
             "<if test=\"name != null\"> AND  book_name  like  CONCAT('%',#{name},'%')</if>" +
@@ -46,17 +47,21 @@ public interface BookMapper {
             "</script>"
     })
     @ResultMap("bookMap")
-    //search books by pagination,  conditional search
+     //search books by pagination,  conditional search
+    // belong to book management module:  2nd sub-module book lending
     Page<Book> searchBooks(Book book);
 
 
 
-    //add books
+    //add new books, only administrator has the right to conduct this function
+    // belong to book management module:  2nd sub-module book lending
     Integer addBook(Book book);
 
 
 
-    //edit books
+    // belong to book management module,  Home page sub-module
+    // also belong to book management module:  2nd sub-module book lending, only for administrator
+    // also belong to 3rd sub-module current borrowing.  for Returning functions(common user and admin), and ReturnConfirm functions
     Integer editBook(Book book);
 
 
@@ -77,6 +82,7 @@ public interface BookMapper {
                     "</script>"})
     @ResultMap("bookMap")
     //search books that is borrowed, used for Admiinstrator
+    // belongs to third sub-module: current borrowing
     Page<Book> selectBorrowed(Book book);
 
 
@@ -92,6 +98,7 @@ public interface BookMapper {
             "</script>"})
     @ResultMap("bookMap")
     //search for borrowed book,  used for normal user
+        // belongs to third sub-module: current borrowing
     Page<Book> selectMyBorrowed(Book book);
 
 }

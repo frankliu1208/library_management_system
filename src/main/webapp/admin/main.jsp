@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
+<%--    this is the home page of this management system when logging in sucessfully, only for administrator--%>
     <meta charset="utf-8">
     <title>Cloudlibrary-Book management system</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
@@ -9,12 +10,13 @@
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="https://kit.fontawesome.com/c2a154e786.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
         function SetIFrameHeight() {
             var iframeid = document.getElementById("iframe");
             if (document.getElementById) {
-                /* 内容展示区的高度等于页面可视区的高度  set the height of content display section = pages' height  */
+                /*  set the height of content display section = pages' height  */
                 iframeid.height = document.documentElement.clientHeight;
             }
         }
@@ -65,13 +67,13 @@
                         <i class="fa fa-dashboard"></i> <span>Main page</span>
                     </a>
                 </li>
-                <!-- Personal management -->
+                <!-- Model 1: Personal management -->
                 <li id="admin-login">
                     <a href="${pageContext.request.contextPath}/user/search" target="iframe">
                         <i class="fa fa-circle-o"></i>Personal management
                     </a>
                 </li>
-                <!-- Book management -->
+                <!-- Model 2: Book management -->
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-folder"></i>
@@ -80,27 +82,32 @@
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                     </a>
+
                     <ul class="treeview-menu">
+                        <%--     sub model 2.1  --%>
                         <li>
                             <a href="${pageContext.request.contextPath}/book/search" target="iframe">
                                 <i class="fa fa-circle-o"></i>Book borrowing
                             </a>
                         </li>
+                        <%--     sub model 2.2  --%>
                         <li>
                             <a href="${pageContext.request.contextPath}/book/searchBorrowed" target="iframe">
                                 <i class="fa fa-circle-o"></i>Current borrowing
                             </a>
                         </li>
+                         <%--     sub model 2.3  --%>
                         <li>
                             <a href="${pageContext.request.contextPath}/record/searchRecords" target="iframe">
                                 <i class="fa fa-circle-o"></i>Borrowing record
                             </a>
                         </li>
                     </ul>
+
                 </li>
+
             </ul>
         </section>
-
 
     </aside>
 

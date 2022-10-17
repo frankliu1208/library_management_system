@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+
     <meta charset="utf-8">
     <title>Current borrowing</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pagination.css">
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pagination.js"  charset="gb2312" ></script>
     <script src="${pageContext.request.contextPath}/js/my.js"></script>
 </head>
 
@@ -19,7 +20,7 @@
     <h3 class="box-title">Current borrowing</h3>
 </div>
 <div class="box-body">
-    <!--tool bar data search -->
+    <!--data search area on the top -->
     <div class="box-tools pull-right">
         <div class="has-feedback">
             <form action="${pageContext.request.contextPath}/book/searchBorrowed" method="post">
@@ -64,17 +65,19 @@
                     <td>${book.borrowTime}</td>
                     <td>${book.returnTime}</td>
                     <td class="text-center">
+                        <%--   when clicking return button, go to my.js returnBook method      --%>
                         <c:if test="${book.status ==1}">
                             <button type="button" class="btn bg-olive btn-xs" onclick="returnBook(${book.id})">Return
                             </button>
                         </c:if>
                         <c:if test="${book.status ==2}">
                             <button type="button" class="btn bg-olive btn-xs" disabled="true">In process:Returning</button>
-                            <c:if test="${USER_SESSION.role =='ADMIN'}">
-                                <button type="button" class="btn bg-olive btn-xs" onclick="returnConfirm(${book.id})">
+                         <%--     when clicking return Confirm, go to my.js returnConfirm method  --%>
+                         <c:if test="${USER_SESSION.role =='ADMIN'}">
+                            <button type="button" class="btn bg-olive btn-xs" onclick="returnConfirm(${book.id})">
                                     Confirm returning
-                                </button>
-                            </c:if>
+                            </button>
+                          </c:if>
                         </c:if>
                     </td>
                 </tr>
@@ -90,17 +93,14 @@
 
 
 <script>
-	/*分页插件展示的总页数*/
+
     pageargs.total = Math.ceil(${pageResult.total}/(pageargs.pagesize));
-	/*分页插件当前的页码*/
     pageargs.cur = ${pageNum}
-	/*分页插件页码变化时将跳转到的服务器端的路径*/
 	pageargs.gourl = "${gourl}"
-	/*保存搜索框中的搜索条件，页码变化时携带之前的搜索条件*/
     bookVO.name = "${search.name}"
     bookVO.author = "${search.author}"
     bookVO.press = "${search.press}"
-	/*分页效果*/
+
     pagination(pageargs);
 </script>
 </html>

@@ -1,5 +1,9 @@
 package com.itheima.domain;
 import java.io.Serializable;
+
+/**
+ * entity class
+ */
 public class Record implements Serializable {
     private Integer id;        //borrowed book id
     private String bookname;   //borrowed book name

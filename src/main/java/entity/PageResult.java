@@ -2,7 +2,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 /**
- * entity class for pagination result
+ * entity class for pagination result displaying
  */
 public class PageResult implements Serializable{
 	private long total; // total page number

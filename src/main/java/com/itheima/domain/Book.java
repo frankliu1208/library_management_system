@@ -1,5 +1,7 @@
 package com.itheima.domain;
 import java.io.Serializable;
+
+// entity class, aligned with database
 public class Book implements Serializable {
     private Integer id;
     private String name;

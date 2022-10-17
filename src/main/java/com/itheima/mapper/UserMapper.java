@@ -2,15 +2,17 @@ package com.itheima.mapper;
 import com.github.pagehelper.Page;
 import com.itheima.domain.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 /**
- * 用户操作接口
+ * User interface in DAO layer
  */
+
 public interface UserMapper{
     @Select("select * from user where user_email=#{email} AND user_password=#{password} AND user_status!='1'")
     @Results(id = "userMap",value = {
             // default id = false, means it is not primary key
-            //column means field in database ，property means property name defined in entity class。
+            //column means field in database ， property means property name defined in entity class。
             @Result(id = true,column = "user_id",property = "id"),
             @Result(column = "user_name",property = "name"),
             @Result(column = "user_password",property = "password"),
@@ -20,7 +22,7 @@ public interface UserMapper{
             @Result(column = "user_status",property = "status"),
             @Result(column = "user_departuredate",property = "departuredate")
     })
-    //User login
+    //belongs to user login module
     User login(User user);
 
 

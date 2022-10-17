@@ -4,6 +4,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
+// webFilter is used to mark the URL that needs to be filtered by Filter ，/* means all the path
 @WebFilter(filterName = "encodingFilter",urlPatterns = "/*")
 public class EncodingFilter  implements Filter {
     @Override

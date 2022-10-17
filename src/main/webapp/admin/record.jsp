@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
+<%-- belong to book management module:  4th sub-module lending record --%>
 <head>
     <meta charset="utf-8">
     <title>Borrowing record</title>
@@ -10,14 +11,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pagination.css">
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pagination.js"  charset="gb2312"></script>
     <script src="${pageContext.request.contextPath}/js/my.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
 <div class="box-header with-border">
-    <h3 class="box-title">Borrwoing record</h3>
+    <h3 class="box-title">Borrowing record</h3>
 </div>
 <div class="box-body">
     <!--tool bar data search -->
@@ -67,16 +68,16 @@
 <!-- /.box-body -->
 </body>
 <script>
-    /*分页插件展示的总页数*/
+    /* total pages, ${pageResult.total} is being got from RecordController */
     pageargs.total = Math.ceil(${pageResult.total}/pageargs.pagesize);
-    /*分页插件当前的页码*/
+    /*current page*/
     pageargs.cur = ${pageNum}
-    /*分页插件页码变化时将跳转到的服务器端的路径*/
+
     pageargs.gourl = "${gourl}"
-    /*保存搜索框中的搜索条件，页码变化时携带之前的搜索条件*/
+    /*  keep the searching condition in the search tag, bring previous searching condition when page changes*/
     recordVO.bookname = "${search.bookname}"
     recordVO.borrower = "${search.borrower}"
-    /*分页效果*/
+    /* pagination effect*/
     pagination(pageargs);
 </script>
 </html>

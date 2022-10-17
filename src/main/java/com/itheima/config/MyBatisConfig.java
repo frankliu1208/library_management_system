@@ -24,7 +24,7 @@ public class MyBatisConfig {
 
 
     /*
-    define core factory
+    define core factory, create object of SqlSessionFactoryBean
     equals to  <bean class="org.mybatis.spring.SqlSessionFactoryBean">
     L30,  两个autowired???
      */
@@ -40,8 +40,8 @@ public class MyBatisConfig {
 
 
     /*
-    define mapping scan
-    等同于<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    define mapping scan, create object of MapperScannerConfigurer and return the object
+    equals to <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
      */
     @Bean
     public MapperScannerConfigurer getMapperScannerConfigurer(){

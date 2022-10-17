@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+<%--    belong to book management module,  Home page sub-module  --%>
     <meta charset="utf-8">
     <title>New book recommendation</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pagination.css">
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-    <script src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pagination.js"   charset="gb2312"></script>
     <script src="${pageContext.request.contextPath}/js/my.js"></script>
 </head>
 
@@ -52,7 +53,7 @@
                 <td>${book.borrowTime}</td>
                 <td>${book.returnTime}</td>
                 <td class="text-center">
-<%--  in the onclick event, when clicking the button, go to the findBookById method in my.js         --%>
+                <%--  in the onclick event, when clicking the button, go to the findBookById method in my.js         --%>
                     <c:if test="${book.status ==0}">
                         <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#borrowModal"
                                 onclick="findBookById(${book.id},'borrow')"> Borrow

@@ -2,14 +2,17 @@
 <html>
 <head>
     <!-- meta -->
+<%--  this is the home page of this management system when logging in sucessfully, only for common user  --%>
     <meta charset="utf-8">
-    <title>cloudlibrary-Book management</title>
+    <title>Cloudlibrary</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/AdminLTE.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/_all-skins.min.css">
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="https://kit.fontawesome.com/c2a154e786.js" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
         function SetIFrameHeight() {
             var iframeid = document.getElementById("iframe"); //iframe id
@@ -27,9 +30,9 @@
         <!-- Logo -->
         <a href="index.jsp" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>cloudlibrary</b></span>
+            <span class="logo-mini"><b>Cloudlibrary</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>cloudlibrary-Book management</b></span>
+            <span class="logo-lg"><b>Cloudlibrary-management-system</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -44,7 +47,7 @@
                         </li>
                         <li class="dropdown user user-menu">
                             <a href="${pageContext.request.contextPath}/user/logout">
-                                <span class="hidden-xs">注销</span>
+                                <span class="hidden-xs">Logout</span>
                             </a>
                         </li>
                     </ul>

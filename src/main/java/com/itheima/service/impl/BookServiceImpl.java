@@ -22,10 +22,9 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookMapper bookMapper;
 
-    /**
-     * @param pageNum current page
-     * @param pageSize number per page
-     */
+
+    //    pageNum is the current page number, pageSize is the number per page
+    // belong to book management module,  Home page sub-module
     @Override
     public PageResult selectNewBooks(Integer pageNum, Integer pageSize) {
         // set parameters for pagination
@@ -37,7 +36,8 @@ public class BookServiceImpl implements BookService {
 
 
     /**
-     * search books according to id
+     *     search books according to id
+     *     belong to book management module,  Home page sub-module
      */
     public Book findById(String id) {
         return bookMapper.findById(id);
@@ -45,7 +45,8 @@ public class BookServiceImpl implements BookService {
 
 
     /**
-     * borrow books,  need to update the current info.
+     *  borrow books,  need to update the current info.
+     *   belong to book management module,  Home page sub-module
      */
     @Override
     public Integer borrowBook(Book book) {
@@ -66,9 +67,7 @@ public class BookServiceImpl implements BookService {
 
 
     /**
-     * @param book search conditions inside
-     * @param pageNum current page
-     * @param pageSize number per page
+     * belong to book management module:  2nd sub-module book lending
      */
     @Override
     public PageResult search(Book book, Integer pageNum, Integer pageSize) {
@@ -80,9 +79,9 @@ public class BookServiceImpl implements BookService {
 
 
 
-
     /**
      * add books
+     * belong to book management module:  2nd sub-module book lending, only for administrator
      */
     public Integer addBook(Book book) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -95,16 +94,16 @@ public class BookServiceImpl implements BookService {
 
     /**
      * edit book info
+     * belong to book management module:  2nd sub-module book lending, only for administrator
      */
     public Integer editBook(Book book) {
         return bookMapper.editBook(book);
     }
 
 
-
-
     /**
-     * used for Admin
+     *  common user and admin will all use this method, go to different method in mapper layer
+     *  belongs to third sub-module: current borrowing
      * @param book object with search condition
      * @param user current logged-in user
      * @param pageNum current page
@@ -117,11 +116,11 @@ public class BookServiceImpl implements BookService {
         Page<Book> page;
         // put the current user to the search condition
         book.setBorrower(user.getName());
-        // if it is Admin, use selectBorrowed
+        // if it is Admin, use selectBorrowed method in bookMapper.java
         if("ADMIN".equals(user.getRole())){
             page= bookMapper.selectBorrowed(book);
         }else {
-            //  if it is common user, use selectMyBorrowed
+            //  if it is common user, use selectMyBorrowed method in bookMapper.java
             page= bookMapper.selectMyBorrowed(book);
         }
         return new PageResult(page.getTotal(),page.getResult());
@@ -129,11 +128,11 @@ public class BookServiceImpl implements BookService {
 
 
 
-
     /**
      * Return the book
-     * @param id   book id which is going to return
-     * @param user   the user who borrowed this book
+     *  belongs to third sub-module: current borrowing
+     *     id     book id which is going to return
+     *     user   the user who borrowed this book
      */
     @Override
     public boolean returnBook(String id,User user) {
@@ -157,7 +156,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      * confirm the return
-     * @param id  returned book id
+     * belongs to third sub-module: current borrowing
      */
     @Override
     public Integer returnConfirm(String id) {
@@ -176,7 +175,7 @@ public class BookServiceImpl implements BookService {
         Integer count= bookMapper.editBook(book);
         //  if returning confirmation is implemented, then add the borrowing record
         if(count==1){
-            return  recordService.addRecord(record);
+            return  recordService.addRecord(record); // set the lending record
         }
         return 0;
     }
@@ -184,7 +183,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      *   set borrowing record according to book info
-     * @param book borrowed book info
+     *   @param book borrowed book info
      */
     private Record setRecord(Book book){
         Record record=new Record();
@@ -192,9 +191,7 @@ public class BookServiceImpl implements BookService {
         record.setBookname(book.getName());
 
         record.setBookisbn(book.getIsbn());
-
         record.setBorrower(book.getBorrower());
-
         record.setBorrowTime(book.getBorrowTime());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

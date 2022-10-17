@@ -5,9 +5,13 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+// belong to book management module:  4th sub-module lending record
 public interface RecordMapper {
-//新增借阅记录
+
+//  addd new lending record
 Integer addRecord(Record record);
+
+
 @Select({"<script>" +
         "SELECT * FROM record " +
         "where 1=1" +
@@ -17,8 +21,7 @@ Integer addRecord(Record record);
         "</script>"
 })
 @Results(id = "recordMap",value = {
-        //id字段默认为false，表示不是主键
-        //column表示数据库表字段，property表示实体类属性名。
+        //column means field in database，property means the property name in entity class。
         @Result(id = true,column = "record_id",property = "id"),
         @Result(column = "record_bookname",property = "bookname"),
         @Result(column = "record_bookisbn",property = "bookisbn"),
@@ -26,6 +29,5 @@ Integer addRecord(Record record);
         @Result(column = "record_borrowtime",property = "borrowTime"),
         @Result(column = "record_remandtime",property = "remandTime")
 })
-//查询借阅记录
 Page<Record> searchRecords(Record record);
 }

@@ -1,4 +1,5 @@
-//借阅窗口中时间标签的内容改变时执行
+
+// implement when the contents in the lending section timing tag  changes
 function cg() {
     $("#savemsg").attr("disabled", false);
     var rt = $("#time").val().split("-");
@@ -22,6 +23,13 @@ function cg() {
         }
     }
 }
+
+// #id 选择器  通过 HTML 元素的 id 属性选取指定的元素
+// 事件处理程序指的是当 HTML 中发生某些事件时所调用的方法。
+//on() 方法为所选元素附加一个或多个事件处理程序。
+
+//  jQuery attr() 方法也用于设置/改变属性值。
+
 //点击借阅图书时执行
 function borrow() {
     var url =getProjectPath()+ "/book/borrowBook";
@@ -33,15 +41,24 @@ function borrow() {
     })
 }
 
-//重置添加和编辑窗口中输入框的内容
+
+//text() -  set or return the written text of selected elements
+// html() -  set or return the content of selected elements
+// val() -   set or return the value of field
+
+
+
+//  reset the content in the input tag of adding and editing windows
 function resetFrom() {
     $("#aoe").attr("disabled",true)
-    var $vals=$("#addOrEditBook input");
+    var $vals=$("#addOrEditBook input"); // all the input tag in the adding modal window is empty, without data from backend,  L125
     $vals.each(function(){
         $(this).attr("style","").val("")
     });
 }
-//重置添加和编辑窗口中输入框的样式
+
+
+//  reset the style in the input tag of adding and editing windows
 function resetStyle() {
     $("#aoe").attr("disabled",false)
     var $vals=$("#addOrEditBook input");
@@ -50,16 +67,17 @@ function resetStyle() {
     });
 }
 
-
+// belong to book management module,  Home page sub-module, when clicking the borrow button in books_new.jsp, call the findBookById method here
 // search book info according to id, then re/send the info to the pages
+// 2 param:  id is the book id that user wants to borrow, doname has "edit" or "borrow", it will lead to different code
 function findBookById(id, doname) {
 
     resetStyle()
     var url = getProjectPath()+"/book/findById?id=" + id;
     $.get(url, function (response) {
-        //， if it is editing the book, send the info(get from response variable) to the editing related pages
+        // in books.jsp, when clicking edit button, will call this method.  if it is editing the book, send the below info(get from backend) to books.jsp L130, fill the input tags of modal window, later the admin can edit these infos.
         if(doname=='edit'){
-            $("#ebid").val(response.data.id);
+            $("#ebid").val(response.data.id);  // ebid is a hidden input tag, it is not displayed in books.jsp, but addOrEdit() will use it
             $("#ebname").val(response.data.name);
             $("#ebisbn").val(response.data.isbn);
             $("#ebpress").val(response.data.press);
@@ -68,37 +86,37 @@ function findBookById(id, doname) {
             $("#ebprice").val(response.data.price);
             $("#ebstatus").val(response.data.status);
         }
-        //， if it is borrowing the book, send the info(get from response variable) to the borrowing related pages, bookmodal.jsp
+        //in books_new.jsp, when clicking borrow button, will call findBookById method here,  if it is borrowing the book, send all below infos coming from backend, to bookmodal.jsp, fill the input tags of modal window
         if(doname=='borrow'){
             $("#savemsg").attr("disabled",true)
             $("#time").val("");
-            $("#bid").val(response.data.id);
-            $("#bname").val(response.data.name);
-            $("#bisbn").val(response.data.isbn);
-            $("#bpress").val(response.data.press);
-            $("#bauthor").val(response.data.author);
-            $("#bpagination").val(response.data.pagination);
+            $("#bid").val(response.data.id);  // bid is a hidden input tag in book_modal.jsp
+            $("#bname").val(response.data.name);  // fill this data into bname input tag in book_modal.jsp
+            $("#bisbn").val(response.data.isbn);  // fill this data into bisbn input tag in book_modal.jsp
+            $("#bpress").val(response.data.press);  // fill this data into bpress input tag in book_modal.jsp
+            $("#bauthor").val(response.data.author);  // fill this data into bauthor input tag in book_modal.jsp
+            $("#bpagination").val(response.data.pagination);// fill this data into bpagination input tag in book_modal.jsp
         }
     })
 }
 
 
 
-//点击添加或编辑的窗口的确定按钮时，提交图书信息
+//  come from books.jsp L158, when clicking save(either for adding or editing functions)
 function addOrEdit() {
-    //获取表单中图书id的内容
+    // get the book id from books.jsp L127
     var ebid = $("#ebid").val();
-    //如果表单中有图书id的内容，说明本次为编辑操作
+    // if book id exists, it is editing operation
     if (ebid > 0) {
         var url = getProjectPath()+"/book/editBook";
         $.post(url, $("#addOrEditBook").serialize(), function (response) {
             alert(response.message)
             if (response.success == true) {
-                window.location.href = getProjectPath()+"/book/search";
+                window.location.href = getProjectPath()+"/book/search"; // after editing, search all books and display them
             }
         })
     }
-    //如果表单中没有图书id，说明本次为添加操作
+    //if book id does not exist, it is adding operation, add button is in books.jsp L28
     else {
         var url = getProjectPath()+"/book/addBook";
         $.post(url, $("#addOrEditBook").serialize(), function (response) {
@@ -109,35 +127,43 @@ function addOrEdit() {
         })
     }
 }
-//归还图书时执行
+
+
+//  implement when clicking return button in book_borrowed.jsp L70
+//  belongs to third sub-module: current borrowing
 function returnBook(bid) {
-    var r = confirm("确定归还图书?");
+    var r = confirm("Do you confirm the returning of the book?");
     if (r) {
         var url = getProjectPath()+"/book/returnBook?id=" + bid;
         $.get(url, function (response) {
             alert(response.message)
-            //还书成功时，刷新当前借阅的列表数据
+            //successfully return the book, then refresh the overall list
             if (response.success == true) {
                 window.location.href = getProjectPath()+"/book/searchBorrowed";
             }
         })
     }
 }
-//确认图书已经归还
+
+
+//  confirm that the books have been returned, only for admin, implement when clicking returnConfirm button in book_borrowed
+//  belongs to third sub-module: current borrowing
 function returnConfirm(bid) {
-    var r = confirm("确定图书已归还?");
+    var r = confirm("Do you confirm that the books have been returned?");
     if (r) {
         var url = getProjectPath()+"/book/returnConfirm?id=" + bid;
         $.get(url, function (response) {
             alert(response.message)
-            //还书确认成功时，刷新当前借阅的列表数据
+            //successfully return the book, then refresh the overall list
             if (response.success == true) {
                 window.location.href = getProjectPath()+"/book/searchBorrowed";
             }
         })
     }
 }
-//检查图书信息的窗口中，图书信息填写是否完整
+
+
+//  check if the book info input is complete or not in book info window
 function checkval(){
     var $inputs=$("#addOrEditTab input")
     var count=0;
@@ -146,11 +172,13 @@ function checkval(){
             count+=1;
         }
     })
-    //如果全部输入框都填写完整，解除确认按钮的禁用状态
+    // release the freezing status of confirm button if input is complete
     if(count==0){
         $("#aoe").attr("disabled",false)
     }
 }
+
+
 //页面加载完成后，给图书模态窗口的输入框绑定失去焦点和获取焦点事件
 $(function() {
     var $inputs=$("#addOrEditBook input")
@@ -185,7 +213,7 @@ $(function() {
 });
 
 
-//重置添加和编辑窗口中输入框的内容
+//  reset the content in the input tag of add and edit windows
 function resetUserFrom() {
     $("#savemsg").attr("disabled",true)
     $("#addmsg").html("")
@@ -195,6 +223,7 @@ function resetUserFrom() {
     });
 
 }
+
 function findUserById(uid) {
     var url = getProjectPath()+"/user/findById?id=" + uid;
     $.get(url, function (response) {
@@ -204,7 +233,6 @@ function findUserById(uid) {
         $("#urole").val(response.role);
         $("#uemail").val(response.email);
         $("#uhire").val(response.hiredate);
-
     })
 }
 
@@ -265,6 +293,7 @@ function checkName(name, email) {
     })
 }
 
+
 function checkEmail(email) {
     var url = getProjectPath()+"/user/checkEmail?email=" + email;
     $.post(url, function (response) {
@@ -275,6 +304,7 @@ function checkEmail(email) {
     })
 }
 
+
 function saveUser() {
     var url =getProjectPath()+"/user/addUser";
     $.post(url, $("#addUser").serialize(), function (response) {
@@ -284,10 +314,12 @@ function saveUser() {
         }
     })
 }
+
+
 function delUser(uid) {
-    var r = confirm("Do you confirm the leaving of this person with ID：" + uid);
+    var r = confirm("Do you confirm the delete of this person with ID：" + uid);
     if (r) {
-        var url = getProjectPath() + "/user/delUser?id=" + uid;
+        var url = getProjectPath() + "/user/delUser?id=" + uid;  // call the method in L334 in this file
         $.get(url, function (response) {
             alert(response.message)
             if (response.success == true) {
@@ -296,23 +328,27 @@ function delUser(uid) {
         })
     }
 }
-//获取当前项目的名称
+
+
+// get the name of current project
     function getProjectPath() {
-        //获取主机地址之后的目录，如： cloudlibrary/admin/books.jsp
+        // get the path after host path ，ex： cloudlibrary/admin/books.jsp
+        // refer:  https://www.w3schools.com/js/js_window_location.asp
         var pathName = window.document.location.pathname;
-        //获取带"/"的项目名，如：/cloudlibrary
-        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        //  get the project name with "/" , ex：/cloudlibrary
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);  // substr method:  https://www.runoob.com/jsref/jsref-substr.html#:~:text=substr()%20%E6%96%B9%E6%B3%95%E5%8F%AF%E5%9C%A8,%E5%8F%82%E6%95%B0start%20%E7%9A%84%E5%80%BC%E6%97%A0%E6%95%88%E3%80%82
         return projectName;
     }
 
+
     /**
-     * 数据展示页面分页插件的参数
-     * cur 当前页
-     * total 总页数
-     * len   显示多少页数
-     * pagesize 1页显示多少条数据
-     * gourl 页码变化时 跳转的路径
-     * targetId 分页插件作用的id
+     *  pagination plugin parameter of data displaying page
+     * cur :    current pages
+     * total :  total pages
+     * len :    display how much pages
+     * pagesize :   display number of data per page
+     * gourl :    jumping path when pages change
+     * targetId : pagination id
      */
     var pageargs = {
         cur: 1,
@@ -338,50 +374,49 @@ function delUser(uid) {
             }
         }
     }
+
     /**
-     *图书查询栏的查询参数
-     * name 图书名称
-     * author 图书作者
-     * press 图书出版社
+     * searching parameters in book searching lane
      */
     var bookVO = {
         name: '',
         author: '',
         press: ''
     }
+
     /**
-     *借阅记录查询栏的查询参数
-     * name 图书名称
-     * borrower 借阅人
+     *  searching parameters in book lending record searching lane
      */
     var recordVO = {
         bookname: '',
         borrower: ''
     }
+
+
     var userVO = {
         id: '',
         name: ''
     }
 
-//数据展示页面分页插件的页码发送变化时执行
+// implemented when page number changes in data displaying page
     function changePage(pageNo, pageSize) {
         pageargs.cur = pageNo;
         pageargs.pagesize = pageSize;
         document.write("<form action=" + pageargs.gourl + " method=post name=form1 style='display:none'>");
         document.write("<input type=hidden name='pageNum' value=" + pageargs.cur + " >");
         document.write("<input type=hidden name='pageSize' value=" + pageargs.pagesize + " >");
-        //如果跳转的是图书信息查询的相关链接，提交图书查询栏中的参数
+        //  if it is the link related to books info search, submit the param in book search input tag
         if (pageargs.gourl.indexOf("book") >= 0) {
             document.write("<input type=hidden name='name' value=" + bookVO.name + " >");
             document.write("<input type=hidden name='author' value=" + bookVO.author + " >");
             document.write("<input type=hidden name='press' value=" + bookVO.press + " >");
         }
-        //如果跳转的是图书记录查询的相关链接，提交图书记录查询栏中的参数
+        //   if it is the link related to user info search, submit the param in book search input tag 如果跳转的是图书记录查询的相关链接，提交图书记录查询栏中的参数
         if (pageargs.gourl.indexOf("user") >= 0) {
             document.write("<input type=hidden name='id' value=" + userVO.id + " >");
             document.write("<input type=hidden name='name' value=" + userVO.name + " >");
         }
-        //如果跳转的是图书记录查询的相关链接，提交图书记录查询栏中的参数
+        //  if it is the link related to record  search, submit the param in book search input tag 如果跳转的是图书记录查询的相关链接，提交图书记录查询栏中的参数
         if (pageargs.gourl.indexOf("record") >= 0) {
             document.write("<input type=hidden name='bookname' value=" + recordVO.bookname + " >");
             document.write("<input type=hidden name='borrower' value=" + recordVO.borrower + " >");

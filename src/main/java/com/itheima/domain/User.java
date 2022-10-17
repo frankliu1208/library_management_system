@@ -1,13 +1,16 @@
 package com.itheima.domain;
 import java.io.Serializable;
+
+// entity class, aligned with user sheet in database
 public class User implements Serializable {
     private Integer id;
     private String name;
     private String password;
     private String email;
     private String role;  // title of the user,  admin or user
-    private String status;
-    private String hiredate;
+    private String status;  // 0: normal, 1: forbidden
+
+    private String hiredate;  // this is a type, it shall be joining date
     private String departuredate;
 
     public Integer getId() {

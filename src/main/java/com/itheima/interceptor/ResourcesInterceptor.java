@@ -14,11 +14,13 @@ public class ResourcesInterceptor extends HandlerInterceptorAdapter {
 
     private List<String> ignoreUrl;
 
-
     public ResourcesInterceptor(List<String> ignoreUrl) {
         this.ignoreUrl = ignoreUrl;
     }
 
+//    preHandle 预处理方法，param handler 指被拦截的控制器对象。  用户的请求首先到达这个方法， 可验证用户是否登录，是否有权限
+//    验证失败，请求不被控制器处理
+//    根据preHandle返回值的true, false判断, true: pass the verification of interceptor preHandler method, will go to controller
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
             Exception {
         User user = (User) request.getSession().getAttribute("USER_SESSION");
@@ -26,7 +28,7 @@ public class ResourcesInterceptor extends HandlerInterceptorAdapter {
         //get the path of the current user request
         String uri = request.getRequestURI();
 
-        // user is in the state of  already logged in,
+        // user is in the state of already logged in,
         if (user != null) {
             // if it is ADMIN, then pass
             if ("ADMIN".equals(user.getRole())) {
@@ -55,4 +57,10 @@ public class ResourcesInterceptor extends HandlerInterceptorAdapter {
     }
 }
 
+
+
+
+
+
 // indexOf()  用来返回某个指定的字符串值在字符串中首次出现的位置。
+// interceptor execution: 1. before the method implement of the controleer, 2. after the method implement of controllers, 3.after the finish of request handliing

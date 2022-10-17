@@ -1,8 +1,8 @@
 package entity;
 import java.io.Serializable;
 /**
- *  send message to the pages
- *  this is a model class, to ensure the data structure unification between front and back end, also called data protocol
+ *  Purpose:  send info to the pages
+ *  to ensure the data structure unification between front and back end, also called data protocol
  */
 public class Result<T> implements Serializable{
 	private boolean success; //whether the operation is succeeded
