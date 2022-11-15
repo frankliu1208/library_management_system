@@ -24,7 +24,7 @@ public class UserController {
     private UserService userService;
 
 
-    //   belong to user login module
+    //   user login functionality, front page is login.jsp
     @RequestMapping("/login")
     public String login(User user, HttpServletRequest request) {
         try {
@@ -37,7 +37,7 @@ public class UserController {
                 if ("ADMIN".equals(role)) {
                     return "redirect:/admin/main.jsp"; // go to admin related page
                 } else {
-                    return "redirect:/admin/index.jsp";  // go to user related page
+                    return "redirect:/admin/index.jsp";  // go to user related page, index.jsp under admin package
                 }
             }
             // object u is null, means the user is not logged in
@@ -72,7 +72,8 @@ public class UserController {
 
 
     /**
-     * add new user
+     * add new user,  Result class used to send information to front pages
+     * front page is user.jsp
      */
     @ResponseBody
     @RequestMapping("/addUser")
@@ -104,7 +105,7 @@ public class UserController {
 
 
     /**
-     * edit user info
+     * edit user info, request comes from function editUser in my.js, return the result object to my.js
      */
     @ResponseBody
     @RequestMapping("/editUser")
@@ -120,10 +121,7 @@ public class UserController {
 
 
     /**
-     * search user
-     * @param user   user object
-     * @param pageNum  current page number
-     * @param pageSize   number per page
+     * search the user,  front pages is user.jsp
      */
     @RequestMapping("/search")
     public ModelAndView search(User user, Integer pageNum, Integer pageSize) {
@@ -136,10 +134,10 @@ public class UserController {
         PageResult pageResult = userService.searchUsers(user, pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user");  // below variables will go to user.jsp
-        modelAndView.addObject("pageResult", pageResult);
-        modelAndView.addObject("search", user); // go to user.jsp L191 - 200
-        modelAndView.addObject("pageNum", pageNum);  // go to user.jsp L191 - 200
-        modelAndView.addObject("gourl", "/user/search");  // go to user.jsp L191 - 200
+        modelAndView.addObject("pageResult", pageResult);    // go to user.jsp  L70
+        modelAndView.addObject("search", user); // go to user.jsp L204 - 213
+        modelAndView.addObject("pageNum", pageNum);  // go to user.jsp L204 - 213
+        modelAndView.addObject("gourl", "/user/search");  // go to user.jsp L204 - 213
         return modelAndView;
     }
 
@@ -154,8 +152,7 @@ public class UserController {
     }
 
     /**
-     * check if the user name already exists
-     * @param name   user name
+     * check if the user name already exists,  it will check when clicking the "add" button and enter the same name as before
      */
     @ResponseBody
     @RequestMapping("/checkName")
@@ -170,7 +167,6 @@ public class UserController {
 
     /**
      * check if the user email already exists
-     * @param email    user email
      */
     @ResponseBody
     @RequestMapping("/checkEmail")

@@ -5,7 +5,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-//    initialize Spring container, put info in SpringConfig class into the Spring container
+    //    initialize Spring container, put info in SpringConfig class into the Spring container
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{SpringConfig.class};
     }

@@ -8,8 +8,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 </head>
 <body>
-<div class="loginmanage">
-    <div class="py-container">
+    <div class="loginmanage">
+         <div class="py-container">
         <h4 class="manage-title">Cloudlibrary-Book management system</h4>
         <div class="loginform">
             <ul class="sui-nav nav-tabs tab-wraped">
@@ -19,10 +19,10 @@
             </ul>
 
             <div class="tab-content tab-wraped">
-                <%--login reminder sentence  --%>
+                <%--login reminder sentence, msg comes from UserController.java L44  --%>
                 <span style="color: red">${msg}</span>
                 <div id="profile" class="tab-pane  active">
-
+                    <%-- this form will send request to login method in UserController.java --%>
                     <form id="loginform" class="sui-form" action="${pageContext.request.contextPath}/user/login"
                           method="post">
                         <div class="input-prepend"><span class="add-on loginname">Username</span>
@@ -32,7 +32,7 @@
                             <input type="password" placeholder="please enter the password" class="span2 input-xfat" name="password">
                         </div>
                         <div class="logined">
-                            <%--    A target attribute with the value of “_self” opens the linked document in the same frame as it was clicked               --%>
+                            <%--  A target attribute with the value of “_self” opens the linked document in the same frame as it was clicked      --%>
                             <a class="sui-btn btn-block btn-xlarge btn-danger"  href='javascript:document:loginform.submit();' target="_self"> Login </a>
                         </div>
                     </form>
@@ -40,8 +40,8 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
-</div>
 </body>
 
 <script type="text/javascript">

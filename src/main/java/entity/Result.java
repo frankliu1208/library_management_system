@@ -11,7 +11,7 @@ public class Result<T> implements Serializable{
 
 	public Result(boolean success, String message) {
 		super();
-		this.success=success;
+		this.success = success;
 		this.message = message;
 	}
 	public Result(boolean success, String message, T data) {

@@ -1,5 +1,5 @@
 
-// implement when the contents in the lending section timing tag  changes
+// implement when the contents in the lending section timing tag changes
 function cg() {
     $("#savemsg").attr("disabled", false);
     var rt = $("#time").val().split("-");
@@ -24,11 +24,9 @@ function cg() {
     }
 }
 
-// #id 选择器  通过 HTML 元素的 id 属性选取指定的元素
-// 事件处理程序指的是当 HTML 中发生某些事件时所调用的方法。
-//on() 方法为所选元素附加一个或多个事件处理程序。
-
-//  jQuery attr() 方法也用于设置/改变属性值。
+// #id :   choose through id property
+//on(): add one or more event handling for the selected element
+//  jQuery attr()  set or change the value of property
 
 //点击借阅图书时执行
 function borrow() {
@@ -42,7 +40,7 @@ function borrow() {
 }
 
 
-//text() -  set or return the written text of selected elements
+//text() -   set or return the written text of selected elements
 // html() -  set or return the content of selected elements
 // val() -   set or return the value of field
 
@@ -224,8 +222,11 @@ function resetUserFrom() {
 
 }
 
+// comes from user.jsp L90, the ajax request from this method will send data to UserController findById method
+// response is the User-class-object from findUserById method in UserController
 function findUserById(uid) {
     var url = getProjectPath()+"/user/findById?id=" + uid;
+    // only update the value in the editing window, in L169 - 180 in user.jsp, did not change the displaying table in the front page
     $.get(url, function (response) {
         $("#uid").val(response.id);
         $("#uname").val(response.name);
@@ -236,6 +237,8 @@ function findUserById(uid) {
     })
 }
 
+// comes from user.jsp L196,  when user clicks modify button to edit the user information, the ajax request will send data to UserController
+// response is the returning Result-class-object from editUser method in UserController
 function editUser() {
     var url =getProjectPath()+ "/user/editUser";
     $.post(url, $("#editUser").serialize(), function (response) {
@@ -246,11 +249,11 @@ function editUser() {
     })
 }
 
-
+// comes from user.jsp L123 - 130
 function changeVal() {
     $("#addmsg").html("")
 }
-
+// comes from user.jsp L123 - 130,  check the input in the adding window
 function checkVal() {
     $("#savemsg").attr("disabled", false);
     $("#addmsg").html("")
@@ -304,9 +307,11 @@ function checkEmail(email) {
     })
 }
 
-
+// save the data from the adding window in user.jsp L148, send ajax to addUser method in UserController.
+//  response is the object of Result class
 function saveUser() {
     var url =getProjectPath()+"/user/addUser";
+    // #addUser is in L119 in user.jsp
     $.post(url, $("#addUser").serialize(), function (response) {
         alert(response.message)
         if (response.success == true) {
@@ -315,7 +320,7 @@ function saveUser() {
     })
 }
 
-
+// comes from user.jsp L93
 function delUser(uid) {
     var r = confirm("Do you confirm the delete of this person with ID：" + uid);
     if (r) {
