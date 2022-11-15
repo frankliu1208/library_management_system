@@ -12,11 +12,10 @@ import javax.sql.DataSource;
 
 // for this project, we use pure/annotation style, there is no.xml files
 @Configuration
-//put MyBatisConfig and JdbcConfig to the Spring. @configuration means that this is a configuration class, we need to import also JdbcConfig.java.
-// previously, the content of JdbcConfig.java can also be written here.
+// put MyBatisConfig.java and JdbcConfig.java to this configuration class.   @configuration means that this is a configuration class, we need to import also JdbcConfig.java.
 @Import({MyBatisConfig.class,JdbcConfig.class})
 
-// *equals to  <context:component-scan base-package="com.itheima.service">
+// equals to  <context:component-scan base-package="com.itheima.service">
 @ComponentScan( "com.itheima.service")
 // open transaction,  equals to  <tx:annotation-driven transaction-manager="transactionManager"/>
 @EnableTransactionManagement

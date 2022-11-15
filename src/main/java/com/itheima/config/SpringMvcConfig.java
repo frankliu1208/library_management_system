@@ -11,12 +11,11 @@ import java.util.List;
 
 
 @Configuration
-// read the content from .properties
+// read the content from .properties, equals to <context: property-placeholder location="classpath: ignoreUrl.properties"  >
 @PropertySource("classpath:ignoreUrl.properties")
 
 //equals to <context:component-scan base-package="com.itheima.controller"/>
-@ComponentScan({"com.itheima.controller"})
-
+@ComponentScan({"com.itheima.controller", "com.itheima.interceptor"})
 @EnableWebMvc
 public class SpringMvcConfig  implements WebMvcConfigurer {
 
@@ -31,7 +30,6 @@ public class SpringMvcConfig  implements WebMvcConfigurer {
         return new ResourcesInterceptor(ignoreUrl);
     }
 
-
     /*
      * resourcesInterceptor is a self-defined interceptor
      * addPathPatterns() set the path that interceptor wants to control,  "/**" means all the request
@@ -44,7 +42,6 @@ public class SpringMvcConfig  implements WebMvcConfigurer {
         registry.addInterceptor( resourcesInterceptor()).addPathPatterns("/**").excludePathPatterns("/css/**","/js/**","/img/**");
     }
 
-
     /*
      *  open the access to static resources
      */
@@ -52,7 +49,6 @@ public class SpringMvcConfig  implements WebMvcConfigurer {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-
 
     // configure review resolver
     @Override

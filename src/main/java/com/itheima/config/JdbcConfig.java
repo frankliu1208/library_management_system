@@ -31,8 +31,7 @@ public class JdbcConfig {
     public DataSource getDataSource(){
         //create an object of DruidDataSource
         DruidDataSource ds = new DruidDataSource();
-
-     // put the database connection info into the ds object through set..method
+     //   put the database connection info into the ds object through set..method
      //   equals to set injection :  <property name="driverClassName" value="driver"/>
         ds.setDriverClassName(driver);
         ds.setUrl(url);

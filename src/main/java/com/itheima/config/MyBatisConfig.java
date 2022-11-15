@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+// configuration setting for mybatis framework, will be injected into SpringConfig.java by @import. this annotation is defined in SpringConfig.java
 public class MyBatisConfig {
 
     /** configue pagination plugin  */
@@ -22,26 +23,21 @@ public class MyBatisConfig {
         return pageIntercptor;
     }
 
-
     /*
-    define core factory, create object of SqlSessionFactoryBean
-    equals to  <bean class="org.mybatis.spring.SqlSessionFactoryBean">
-    L30,  两个autowired???
+    define core factory, create object of SqlSessionFactoryBean,  equals to  <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+    injection of third-party bean: define the parameters in the paramter list in the bracket
      */
     @Bean
     public SqlSessionFactoryBean getSqlSessionFactoryBean(@Autowired DataSource dataSource,@Autowired PageInterceptor pageIntercptor){
         SqlSessionFactoryBean ssfb = new SqlSessionFactoryBean();
-        // equals to  <property name="dataSource" ref="dataSource"/>
-        ssfb.setDataSource(dataSource);
-        Interceptor[] plugins={pageIntercptor}; // ???
+        ssfb.setDataSource(dataSource);  // comes from the parameter in bracket of this method in L31
+        Interceptor[] plugins={pageIntercptor}; // comes from the parameter in bracket of this method in L31
         ssfb.setPlugins(plugins);
         return ssfb;
     }
 
-
     /*
-    define mapping scan, create object of MapperScannerConfigurer and return the object
-    equals to <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    define mapping scan, create object of MapperScannerConfigurer and return the object,  equals to <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
      */
     @Bean
     public MapperScannerConfigurer getMapperScannerConfigurer(){

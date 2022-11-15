@@ -19,7 +19,7 @@
             </ul>
 
             <div class="tab-content tab-wraped">
-                <%--login reminder--%>
+                <%--login reminder sentence  --%>
                 <span style="color: red">${msg}</span>
                 <div id="profile" class="tab-pane  active">
 
@@ -32,9 +32,8 @@
                             <input type="password" placeholder="please enter the password" class="span2 input-xfat" name="password">
                         </div>
                         <div class="logined">
-                            <a class="sui-btn btn-block btn-xlarge btn-danger"
-                            <%--  从document中取出loginform，然后调用loginform的submit()方法    --%>
-                               href='javascript:document:loginform.submit();' target="_self"> Login </a>
+                            <%--    A target attribute with the value of “_self” opens the linked document in the same frame as it was clicked               --%>
+                            <a class="sui-btn btn-block btn-xlarge btn-danger"  href='javascript:document:loginform.submit();' target="_self"> Login </a>
                         </div>
                     </form>
 
@@ -47,7 +46,7 @@
 
 <script type="text/javascript">
     /**
-     * login timeout,  session is out of date, go to login.jsp again
+     * login timeout,  if session is out of date, the login.jsp is embedded into the iframe
      */
     var _topWin = window;
     while (_topWin != _topWin.parent.window) {
