@@ -33,9 +33,9 @@ public class RecordServiceImpl implements RecordService {
 
     /**
      * search lending records
-     * belong to book management module:  4th sub-module lending record
+     * belong to book management module:  3th sub-module borrowing record
      * @param record record conditions
-     * @param user current login user
+     * @param user   current login user
      * @param pageNum current page
      * @param pageSize number per page
      */

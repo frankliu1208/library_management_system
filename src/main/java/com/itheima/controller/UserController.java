@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- *  Controller for user login and logout
+ *  Controller for user login and logout, belong to module "personal management"
  */
 @Controller
 @RequestMapping("/user")
@@ -29,8 +29,8 @@ public class UserController {
     public String login(User user, HttpServletRequest request) {
         try {
             User u = userService.login(user);
-
             // user has been logged in, save info to session, go to the main.jsp or index.jsp
+            // USER_SESSION can be used in all files
             if (u != null) {
                 request.getSession().setAttribute("USER_SESSION", u);
                 String role = u.getRole();
@@ -54,7 +54,7 @@ public class UserController {
 
 
     /*
-    Logout function,  belong to user login module
+    Logout functionality,  belong to user login module
      */
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
@@ -121,7 +121,7 @@ public class UserController {
 
 
     /**
-     * search the user,  front pages is user.jsp
+     * search the user,  front pages is user.jsp, belong to personal management module
      */
     @RequestMapping("/search")
     public ModelAndView search(User user, Integer pageNum, Integer pageSize) {

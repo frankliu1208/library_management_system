@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 
-<%-- belong to book management module:  4th sub-module lending record --%>
+<%-- front page for book management module:  3th sub-module "borrowing record" --%>
 <head>
     <meta charset="utf-8">
     <title>Borrowing record</title>
@@ -16,59 +16,59 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini">
-<!-- .box-body -->
-<div class="box-header with-border">
-    <h3 class="box-title">Borrowing record</h3>
-</div>
-<div class="box-body">
-    <!--tool bar data search -->
-    <div class="box-tools pull-right">
-        <div class="has-feedback">
-            <form action="${pageContext.request.contextPath}/record/searchRecords" method="post">
-                <c:if test="${USER_SESSION.role =='ADMIN'}">
+<!-- on the top of the page -->
+    <div class="box-header with-border">
+        <h3 class="box-title">Borrowing record</h3>
+    </div>
+    <div class="box-body">
+        <!--on the top of the page:  data search -->
+        <div class="box-tools pull-right">
+            <div class="has-feedback">
+                <form action="${pageContext.request.contextPath}/record/searchRecords" method="post">
+                    <c:if test="${USER_SESSION.role =='ADMIN'}">
                     Borrower：<input name="borrower" value="${search.borrower}">&nbsp&nbsp&nbsp&nbsp
-                </c:if>
-                Book name：<input name="bookname" value="${search.bookname}">&nbsp&nbsp&nbsp&nbsp
-                <button class="btn btn-default" type="submit">Search</button>
-            </form>
+                    </c:if>
+                    Book name：<input name="bookname" value="${search.bookname}">&nbsp&nbsp&nbsp&nbsp
+                    <button class="btn btn-default" type="submit">Search</button>
+                </form>
+            </div>
         </div>
-    </div>
-    <!--tool bar data search /-->
-    <!-- data list -->
-    <div class="table-box">
-        <!--data sheet-->
-        <table id="dataList" class="table table-bordered table-striped table-hover dataTable text-center">
-            <thead>
-            <tr>
-                <th class="sorting">Borrower</th>
-                <th class="sorting_asc">Book name</th>
-                <th class="sorting">Standard ISBN</th>
-                <th class="sorting">Borrowing date</th>
-                <th class="sorting">Return date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${pageResult.rows}" var="record">
+
+        <!-- displaying table in the center of the page -->
+        <div class="table-box">
+            <!--data sheet-->
+            <table id="dataList" class="table table-bordered table-striped table-hover dataTable text-center">
+                <thead>
                 <tr>
-                    <td>${record.borrower}</td>
-                    <td>${record.bookname}</td>
-                    <td>${record.bookisbn}</td>
-                    <td>${record.borrowTime}</td>
-                    <td>${record.remandTime}</td>
+                    <th class="sorting">Borrower</th>
+                    <th class="sorting_asc">Book name</th>
+                    <th class="sorting">Standard ISBN</th>
+                    <th class="sorting">Borrowing date</th>
+                    <th class="sorting">Return date</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach items="${pageResult.rows}" var="record">
+                    <tr>
+                        <td>${record.borrower}</td>
+                        <td>${record.bookname}</td>
+                        <td>${record.bookisbn}</td>
+                        <td>${record.borrowTime}</td>
+                        <td>${record.remandTime}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
 
-        <%--pagination plugin--%>
-        <div id="pagination" class="pagination"></div>
+            <%--pagination plugin--%>
+            <div id="pagination" class="pagination"></div>
+        </div>
+
     </div>
-
-</div>
-<!-- /.box-body -->
 </body>
+
 <script>
-    /* total pages, ${pageResult.total} is being got from RecordController */
+    /* total pages, "$ {pageResult.total}" is being got from RecordController */
     pageargs.total = Math.ceil(${pageResult.total}/pageargs.pagesize);
     /*current page*/
     pageargs.cur = ${pageNum}
@@ -77,7 +77,7 @@
     /*  keep the searching condition in the search tag, bring previous searching condition when page changes*/
     recordVO.bookname = "${search.bookname}"
     recordVO.borrower = "${search.borrower}"
-    /* pagination effect*/
+    /* pagination effect */
     pagination(pageargs);
 </script>
 </html>

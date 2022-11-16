@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%--belong to book management module,  Home page sub-module  --%>
-<!-- modal window，hided by default,  in books_new.jsp, when clicking "borrow", call findBookById in my.js,
- send async request to backend, get the data and fill them in this modal window-->
+
+<%-- belong to Main page module  --%>
+<!-- this modal window is hided by default,  in books_new.jsp, when clicking "borrow", call findBookById in my.js,
+ send async request to backend, get the data and fill them in this modal window (refer to L89 - 97 in my.js)-->
 <div class="modal fade" id="borrowModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -11,7 +12,7 @@
             <div class="modal-body">
                 <form id="borrowBook">
                     <table class="table table-bordered table-striped" width="1200px">
-                        <%--book id，did not display in the modal interface--%>
+                        <%--book id did not display in this modal window--%>
                         <span><input type="hidden" id="bid" name="id"></span>
                         <tr>
                             <td>Book name</td>
@@ -38,7 +39,7 @@
             </div>
 
             <div class="modal-footer">
-                <%-- when clicking save button, hide the modal window, and call the borrow method in my.js--%>
+                <%-- when clicking save button, hide the modal window, and call the borrow method L32  in my.js--%>
                 <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="borrow()"
                         disabled="true" id="savemsg">Save
                 </button>

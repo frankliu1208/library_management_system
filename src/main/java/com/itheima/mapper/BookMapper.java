@@ -24,11 +24,11 @@ public interface BookMapper {
             @Result(column = "book_returntime",property = "returnTime")
     })
     // object of Page includes total pages and rows, see the entity class PageResult, Page class is provided by PageHelper plugin
-    // belong to book management module,  Home page sub-module
+    // belong to Main page module
     Page<Book> selectNewBooks();
 
 
-    // belong to book management module,  Home page sub-module
+    // belong to Main page module
     @Select("SELECT * FROM book where book_id=#{id}")
     @ResultMap("bookMap")
     //search for book according to id
@@ -36,7 +36,7 @@ public interface BookMapper {
 
 
 
-    // 注解方式实现动态sql,  需要使用 <script></script> 标签包裹
+    // realizing dynamic sql using annotation ,  need to use <script></script> tags to wrap the sentence
     @Select({ "<script>" +
             "SELECT * FROM book " +
             "where book_status !='3'" +

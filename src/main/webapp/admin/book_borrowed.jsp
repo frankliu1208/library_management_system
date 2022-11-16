@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-
+    <%--belong to book management module:  2nd sub-module "current borrowing" --%>
     <meta charset="utf-8">
     <title>Current borrowing</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">

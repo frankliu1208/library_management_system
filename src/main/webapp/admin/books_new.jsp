@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-<%--    belong to book management module,  Home page sub-module  --%>
+    <%--  belong to Main page module  --%>
     <meta charset="utf-8">
     <title>New book recommendation</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
@@ -21,23 +21,23 @@
 </div>
 
 <div class="box-body">
-    <!-- sheet -->
+    <!-- list at the center of the page -->
     <table id="dataList" class="table table-bordered table-striped table-hover dataTable text-center">
         <thead>
-        <tr>
-            <th class="sorting_asc">Book name</th>
-            <th class="sorting">Book auther</th>
-            <th class="sorting">Publisher</th>
-            <th class="sorting">ISBN</th>
-            <th class="sorting">Book status</th>
-            <th class="sorting">Borrower</th>
-            <th class="sorting">Borrow time</th>
-            <th class="sorting">Estimated return date</th>
-            <th class="text-center">Operation</th>
-        </tr>
+            <tr>
+                <th class="sorting_asc">Book name</th>
+                <th class="sorting">Book auther</th>
+                <th class="sorting">Publisher</th>
+                <th class="sorting">ISBN</th>
+                <th class="sorting">Book status</th>
+                <th class="sorting">Borrower</th>
+                <th class="sorting">Borrow time</th>
+                <th class="sorting">Estimated return date</th>
+                <th class="text-center">Operation</th>
+            </tr>
         </thead>
         <tbody>
-<%--  comes from BookController, selectNewbooks()      --%>
+        <%--  comes from BookController, selectNewbooks()      --%>
         <c:forEach items="${pageResult.rows}" var="book">
             <tr>
                 <td> ${book.name}</td>
@@ -53,12 +53,13 @@
                 <td>${book.borrowTime}</td>
                 <td>${book.returnTime}</td>
                 <td class="text-center">
-                <%--  in the onclick event, when clicking the button, go to the findBookById method in my.js         --%>
+                <%--  for  onclick event, when clicking the button, go to the findBookById method in my.js  L71  --%>
                     <c:if test="${book.status ==0}">
                         <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#borrowModal"
                                 onclick="findBookById(${book.id},'borrow')"> Borrow
                         </button>
                     </c:if>
+                    <%--   when the status of book is 1 or 2, the Borrow button can not be clicked  --%>
                     <c:if test="${book.status ==1 ||book.status ==2}">
                         <button type="button" class="btn bg-olive btn-xs" disabled="true">Borrow</button>
                     </c:if>
@@ -70,7 +71,7 @@
 
 </div>
 
-<%--引入存放模态窗口的页面, 这里为什么要引入 ??--%>
+
 <jsp:include page="/admin/book_modal.jsp"></jsp:include>
 </body>
 </html>

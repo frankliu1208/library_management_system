@@ -8,15 +8,15 @@ import entity.PageResult;
 public interface BookService {
 
     // search the books that is newly on the shelf, relates to selectNewBooks method in BookMapper.java
-    // belong to book management module,  Home page sub-module
+    // belong to Main page module
     PageResult selectNewBooks(Integer pageNum, Integer pageSize);
 
 
     //search book according to id
-    // belong to book management module,  Home page sub-module
+    // belong to Main page module
     Book findById(String id);
 
-    // belong to book management module,  Home page sub-module
+    // belong to Main page module
     Integer borrowBook(Book book);
 
 

@@ -24,7 +24,7 @@ public class BookServiceImpl implements BookService {
 
 
     //    pageNum is the current page number, pageSize is the number per page
-    // belong to book management module,  Home page sub-module
+    //    belong to Main page module
     @Override
     public PageResult selectNewBooks(Integer pageNum, Integer pageSize) {
         // set parameters for pagination
@@ -37,7 +37,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      *     search books according to id
-     *     belong to book management module,  Home page sub-module
+     *     belong to Main page module
      */
     public Book findById(String id) {
         return bookMapper.findById(id);
@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
 
     /**
      *  borrow books,  need to update the current info.
-     *   belong to book management module,  Home page sub-module
+     *  belong to Main page module
      */
     @Override
     public Integer borrowBook(Book book) {

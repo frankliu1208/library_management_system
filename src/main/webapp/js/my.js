@@ -1,5 +1,5 @@
 
-// implement when the contents in the lending section timing tag changes
+// implement when the contents in related tag changes, from book_modal.jsp L34
 function cg() {
     $("#savemsg").attr("disabled", false);
     var rt = $("#time").val().split("-");
@@ -25,10 +25,10 @@ function cg() {
 }
 
 // #id :   choose through id property
-//on(): add one or more event handling for the selected element
+//on():   add one or more event handling for the selected element
 //  jQuery attr()  set or change the value of property
 
-//点击借阅图书时执行
+//  comes from L43 book_modal.jsp
 function borrow() {
     var url =getProjectPath()+ "/book/borrowBook";
     $.post(url, $("#borrowBook").serialize(), function (response) {
@@ -65,9 +65,9 @@ function resetStyle() {
     });
 }
 
-// belong to book management module,  Home page sub-module, when clicking the borrow button in books_new.jsp, call the findBookById method here
-// search book info according to id, then re/send the info to the pages
-// 2 param:  id is the book id that user wants to borrow, doname has "edit" or "borrow", it will lead to different code
+// belong to "Main page" module, when clicking the borrow button in books_new.jsp, call the findBookById method here
+// search book info according to id, 2 param:  id is the book id that user wants to borrow, doname has "edit" or "borrow", it will lead to different code
+// in books_new.jsp, doname is "borrow" in L59
 function findBookById(id, doname) {
 
     resetStyle()
@@ -84,20 +84,20 @@ function findBookById(id, doname) {
             $("#ebprice").val(response.data.price);
             $("#ebstatus").val(response.data.status);
         }
-        //in books_new.jsp, when clicking borrow button, will call findBookById method here,  if it is borrowing the book, send all below infos coming from backend, to bookmodal.jsp, fill the input tags of modal window
+        //in books_new.jsp, when clicking borrow button, will call findBookById method here,
+        // if it is borrowing the book, send all below infos which are coming from backend, to bookmodal.jsp, fill the input tags of modal window
         if(doname=='borrow'){
             $("#savemsg").attr("disabled",true)
             $("#time").val("");
-            $("#bid").val(response.data.id);  // bid is a hidden input tag in book_modal.jsp
-            $("#bname").val(response.data.name);  // fill this data into bname input tag in book_modal.jsp
-            $("#bisbn").val(response.data.isbn);  // fill this data into bisbn input tag in book_modal.jsp
-            $("#bpress").val(response.data.press);  // fill this data into bpress input tag in book_modal.jsp
-            $("#bauthor").val(response.data.author);  // fill this data into bauthor input tag in book_modal.jsp
-            $("#bpagination").val(response.data.pagination);// fill this data into bpagination input tag in book_modal.jsp
+            $("#bid").val(response.data.id);   // bid is a hidden input tag in book_modal.jsp L16
+            $("#bname").val(response.data.name);     // fill this data into "bname input tag" in book_modal.jsp
+            $("#bisbn").val(response.data.isbn);     // fill this data into " bisbn input tag" in book_modal.jsp
+            $("#bpress").val(response.data.press);   // fill this data into "bpress input tag "in book_modal.jsp
+            $("#bauthor").val(response.data.author);   // fill this data into "bauthor input tag" in book_modal.jsp
+            $("#bpagination").val(response.data.pagination);  // fill this data into "bpagination input tag" in book_modal.jsp
         }
     })
 }
-
 
 
 //  come from books.jsp L158, when clicking save(either for adding or editing functions)
@@ -348,12 +348,12 @@ function delUser(uid) {
 
     /**
      *  pagination plugin parameter of data displaying page
-     * cur :    current pages
-     * total :  total pages
-     * len :    display how much pages
-     * pagesize :   display number of data per page
-     * gourl :    jumping path when pages change
-     * targetId : pagination id
+     *  cur :    current pages
+     *  total :  total pages
+     *  len :    display how much pages
+     *  pagesize :   display number of data per page
+     *  gourl :    jumping path when pages change
+     *  targetId : pagination id
      */
     var pageargs = {
         cur: 1,
@@ -390,7 +390,7 @@ function delUser(uid) {
     }
 
     /**
-     *  searching parameters in book lending record searching lane
+     *  searching parameters in book borrowing record searching tag from record.jsp
      */
     var recordVO = {
         bookname: '',

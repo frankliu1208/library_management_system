@@ -24,26 +24,26 @@ public class BookController {
     private BookService bookService;
 
     /**
-     * check the books that is newly on the shelf
-     *    belong to book management module,  Home page sub-module
+     *  check the books that is newly on the shelf
+     *  belong to Main page module
      */
     @RequestMapping("/selectNewbooks")
     public ModelAndView selectNewbooks() {
-        // check first page
+        // pageNum means current page
         int pageNum = 1;
         int pageSize = 5;
         PageResult pageResult = bookService.selectNewBooks(pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("books_new");
+        // below codes go to books_new.jsp L41
         modelAndView.addObject("pageResult", pageResult);
         return modelAndView;
     }
 
 
-
     /**
-     * search books according to id
-     * belong to book management module,  Home page sub-module
+     * search books according to id,  the request come from findBookById function L71 in my.js
+     * belong to Main page module
      */
     @ResponseBody
     @RequestMapping("/findById")
@@ -59,13 +59,13 @@ public class BookController {
             return new Result(false,"Search failed！");
         }
     }
-        // controller为什么返回Result对象，谁接收了这个返回值??
+
 
 
 
     /**
      * borrow the books
-     * belong to book management module,  Home page sub-module
+     * belong to Main page module
      */
     @ResponseBody
     @RequestMapping("/borrowBook")
@@ -114,7 +114,6 @@ public class BookController {
     /**
      * add books,  parameter book comes from the front end, bringing the newly-added book info
      *  put the result and info into the object of Result
-     *
      *  belong to book management module:  2nd sub-module book lending, only for administrator
      */
     @ResponseBody
